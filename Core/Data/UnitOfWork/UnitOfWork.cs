@@ -36,6 +36,7 @@ namespace Data.UnitOfWork
                     _context.Dispose();
                 }
             }
+
             this._disposed = true;
         }
 

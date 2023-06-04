@@ -23,7 +23,7 @@ namespace Data.Repository
             return await Task.FromResult(this._context.Set<TEntity>().AsNoTracking().Where(predicate));
         }
 
-        public async Task<TEntity> GetById(Guid id)
+        public async Task<TEntity?> GetById(Guid id)
         {
             var entity = await this._context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
 
@@ -44,7 +44,10 @@ namespace Data.Repository
         public async Task Delete(Guid id)
         {
             var entity = await this.GetById(id);
-            this._context.Set<TEntity>().Remove(entity);
+            if (entity != null)
+            {
+                this._context.Set<TEntity>().Remove(entity);
+            }
         }
     }
 }

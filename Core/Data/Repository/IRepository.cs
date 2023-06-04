@@ -6,7 +6,7 @@
 
         Task<IEnumerable<TEntity>> Find(Func<TEntity, bool> predicate);
 
-        Task<TEntity> GetById(Guid id);
+        Task<TEntity?> GetById(Guid id);
 
         Task Create(TEntity entity);
 

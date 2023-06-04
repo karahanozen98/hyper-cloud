@@ -1,8 +1,7 @@
-using Data.UnitOfWork;
-using Identity.Application.Services;
-using Identity.Repository.Context;
-using Identity.Repository.UnitOfWork;
+using Post.Repository.Context;
 using Microsoft.EntityFrameworkCore;
+using Data.UnitOfWork;
+using Post.Repository.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -10,8 +9,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection")));
-builder.Services.AddScoped<IUnitOfWork, IdentityUnitOfWork>();
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IUnitOfWork, PostUnitOfWork>();
+
 
 var app = builder.Build();
 
@@ -27,5 +26,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<UnitOfWorkMiddleware>();
 
 app.Run();
