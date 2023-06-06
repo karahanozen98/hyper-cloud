@@ -8,6 +8,6 @@ namespace Post.Domain.Entities
 
         public Post Post { get; set; }
 
-        public byte[] Data { get; set; }    
+        public string Data { get; set; }    
     }
 }

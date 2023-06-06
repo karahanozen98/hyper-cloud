@@ -10,7 +10,7 @@ namespace Post.Domain.Entities
 
         public string Content { get; set; } 
 
-        public byte[] File { get; set; }
+        public string File { get; set; }
 
         public bool IsPublic { get; set; }
 

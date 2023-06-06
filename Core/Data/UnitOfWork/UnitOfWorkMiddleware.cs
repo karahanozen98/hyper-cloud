@@ -13,8 +13,8 @@ namespace Data.UnitOfWork
 
         public async Task Invoke(HttpContext context, IUnitOfWork unitOfWork)
         {
-            unitOfWork.Save();
             await _next.Invoke(context);
+            unitOfWork.Save();
         }
     }
 }
