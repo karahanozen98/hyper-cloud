@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bff.Mobile.Api.Services;
+using Microsoft.AspNetCore.Mvc;
 using Post.Application.Dto;
-using Post.Application.Services;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace Post.Api.Controllers
+namespace Bff.Mobile.Api.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class PostController : ControllerBase
     {
         private readonly PostService _postService;
@@ -17,18 +15,16 @@ namespace Post.Api.Controllers
             this._postService = postService;
         }
 
-        // GET: api/<PostController>
         [HttpGet]
         public async Task<IList<PostDto>> Get()
         {
             return await this._postService.GetPosts();
         }
 
-        // GET api/<PostController>/5
         [HttpGet("{id}")]
-        public async Task<PostDto> GetPostById([FromRoute]Guid id)
+        public async Task<PostDto> GetPostById([FromRoute] Guid id)
         {
-            return await this._postService.GetPostsById(id);
+            return await this._postService.GetPostById(id);
         }
 
         // POST api/<PostController>

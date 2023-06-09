@@ -17,22 +17,17 @@ namespace Identity.Application.Dto
 
         public Role Role { get; set; }
 
-        public UserDto(User user)
+        public static UserDto Map(User user)
         {
-            this.Id = user.Id;
-            this.FirstName = user.FirstName;
-            this.MiddleName = user.MiddleName;
-            this.LastName = user.LastName;
-            this.Email = user.Email;
-            this.Role = user.Role;
-        }
-    }
+            var dto = new UserDto();
+            dto.Id = user.Id;
+            dto.FirstName = user.FirstName;
+            dto.MiddleName = user.MiddleName;
+            dto.LastName = user.LastName;
+            dto.Email = user.Email;
+            dto.Role = user.Role;
 
-    public static class UserExtension
-    {
-        public static UserDto Map(this User user)
-        {
-            return new UserDto(user);
+            return dto;
         }
     }
 }

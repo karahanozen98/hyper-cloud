@@ -34,6 +34,23 @@ namespace Post.Application.Services
             }).ToList();
         }
 
+        public async Task<PostDto> GetPostsById(Guid id)
+        {
+            var post = (await this._postRepository.GetById(id));
+            var postDto =  new PostDto
+            {
+                Id = post.Id,
+                Description = post.Description,
+                Content = post.Content,
+                File = post.File,
+                IsPublic = post.IsPublic,
+                Owner = null,
+                Title = post.Title
+            };
+
+            return postDto;
+        }
+
         public async Task CreatePost(CreatePostDto createPostDto)
         {
             var postOwner = await this._postOwnerRespository.GetById(createPostDto.Owner.Id);
