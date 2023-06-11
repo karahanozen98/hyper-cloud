@@ -1,24 +1,27 @@
-class AuthHeaderHandler : DelegatingHandler
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+
+namespace Api.Http
 {
-    private readonly ITenantProvider tenantProvider;
-    private readonly IAuthTokenStore authTokenStore;
-
-    public AuthHeaderHandler(ITenantProvider tenantProvider, IAuthTokenStore authTokenStore)
+    public class AuthHeaderHandler : DelegatingHandler
     {
-        this.tenantProvider = tenantProvider ?? throw new ArgumentNullException(nameof(tenantProvider));
-        this.authTokenStore = authTokenStore ?? throw new ArgumentNullException(nameof(authTokenStore));
-        InnerHandler = new HttpClientHandler();
-    }
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-    {
-        var token = await authTokenStore.GetToken();
+        public AuthHeaderHandler(IHttpContextAccessor httpContextAccessor)
+        {
+            this.httpContextAccessor = httpContextAccessor;
+        }
 
-        //potentially refresh token here if it has expired etc.
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            var token = this.httpContextAccessor.HttpContext.Request.Cookies["token"]?.ToString();
 
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        request.Headers.Add("X-Tenant-Id", tenantProvider.GetTenantId());
+            if (token != null)
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
 
-        return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        }
     }
 }
