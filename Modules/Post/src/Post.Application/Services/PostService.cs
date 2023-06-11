@@ -66,8 +66,8 @@ namespace Post.Application.Services
                     Email = createPostDto.Owner.Email,
                 };
 
-                this._postOwnerRespository.Create(postOwner);
-                this._unitOfWork.Save();
+                await this._postOwnerRespository.Create(postOwner);
+                await this._unitOfWork.SaveAsync();
             }
 
             var post = new Domain.Entities.Post
@@ -84,6 +84,11 @@ namespace Post.Application.Services
             };
 
             await this._postRepository.Create(post);
+        }
+
+        public async Task DeletePost(Guid id)
+        {
+            await this._postRepository.Delete(id);
         }
     }
 }

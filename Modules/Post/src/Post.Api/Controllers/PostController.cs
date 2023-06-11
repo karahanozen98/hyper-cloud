@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Post.Application.Dto;
 using Post.Application.Services;
 
@@ -26,12 +27,12 @@ namespace Post.Api.Controllers
 
         // GET api/<PostController>/5
         [HttpGet("{id}")]
-        public async Task<PostDto> GetPostById([FromRoute]Guid id)
+        public async Task<PostDto> GetPostById([FromRoute] Guid id)
         {
             return await this._postService.GetPostsById(id);
         }
 
-        // POST api/<PostController>
+        [Authorize]
         [HttpPost]
         public async Task Post([FromBody] CreatePostDto createPostDto)
         {
@@ -40,14 +41,15 @@ namespace Post.Api.Controllers
 
         // PUT api/<PostController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<PostController>/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(Guid id)
         {
+            await this._postService.DeletePost(id);
         }
     }
 }

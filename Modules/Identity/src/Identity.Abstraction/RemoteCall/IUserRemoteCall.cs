@@ -12,6 +12,6 @@ namespace Identity.Abstraction.RemoteCall
         public Task<IList<UserDto>> GetUserById(Guid id);
 
         [Post("/api/user/login")]
-        public Task<UserDto> Login([Body] LoginDto loginDto);
+        public Task<ApiResponse<UserDto>> Login([Body] LoginDto loginDto);
     }
 }

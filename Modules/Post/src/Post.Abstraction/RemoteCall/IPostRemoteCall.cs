@@ -12,6 +12,9 @@ namespace Post.Abstraction.RemoteCall
         public Task<PostDto> GetPostById(Guid id);
 
         [Post("/api/post")]
-        public Task<PostDto> CreatePost(CreatePostDto createPostDto);
+        public Task CreatePost(CreatePostDto createPostDto);
+
+        [Delete("/api/post/{id}")]
+        public Task DeletePost(Guid id);
     }
 }

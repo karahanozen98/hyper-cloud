@@ -26,5 +26,10 @@ namespace Bff.Mobile.Api.Services
         {
             await this._postRemoteCall.CreatePost(dto);
         }
+
+        public async Task DeletePost(Guid id)
+        {
+            await this._postRemoteCall.DeletePost(id);
+        }
     }
 }

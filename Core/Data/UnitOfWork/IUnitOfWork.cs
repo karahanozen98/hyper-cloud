@@ -6,7 +6,7 @@ namespace Data.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
-        void Save();
+        Task SaveAsync();
 
         IRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity;
     }

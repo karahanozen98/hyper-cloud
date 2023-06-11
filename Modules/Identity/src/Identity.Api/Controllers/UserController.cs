@@ -36,7 +36,18 @@ namespace Identity.Api.Controllers
         [HttpPost("login")]
         public async Task<UserDto> Login([FromBody] LoginDto loginDto)
         {
-            return await this._userService.Login(loginDto);
+            var user = await this._userService.Login(loginDto);
+            var jwt = this._userService.GenerateToken(user);
+            Response.Cookies.Append("token", jwt, new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(30),
+                Secure = true,
+                IsEssential = true,
+                SameSite = SameSiteMode.Lax
+            });
+
+            return user;
         }
     }
 }

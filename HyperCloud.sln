@@ -59,6 +59,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Abstraction", "Mod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Post.Abstraction", "Modules\Post\src\Post.Abstraction\Post.Abstraction.csproj", "{4D667A2A-F921-4A46-9BE2-4621768E7C9A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{FDB8C4A0-1E15-4F99-AFEC-49BED8B3CA04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{4D667A2A-F921-4A46-9BE2-4621768E7C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D667A2A-F921-4A46-9BE2-4621768E7C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D667A2A-F921-4A46-9BE2-4621768E7C9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDB8C4A0-1E15-4F99-AFEC-49BED8B3CA04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDB8C4A0-1E15-4F99-AFEC-49BED8B3CA04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDB8C4A0-1E15-4F99-AFEC-49BED8B3CA04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDB8C4A0-1E15-4F99-AFEC-49BED8B3CA04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -157,6 +163,7 @@ Global
 		{EA7410BE-408B-4BC4-B2AF-2C9C3730468B} = {13D12197-0423-4358-A5AA-8B573C697BB2}
 		{9393CF51-D2E5-4BF2-8019-E706AA0899F4} = {82539220-DD20-4327-808F-A3D3540F876A}
 		{4D667A2A-F921-4A46-9BE2-4621768E7C9A} = {2D78E282-47A7-4922-BCF0-68F9BADB94B7}
+		{FDB8C4A0-1E15-4F99-AFEC-49BED8B3CA04} = {4A0909F0-FC76-4E79-88D7-B18CDAEA06E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3E2C790C-FBED-4BDB-800D-30DC1E60260B}

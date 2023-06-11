@@ -20,10 +20,28 @@ namespace Data.UnitOfWork
             this._repositories = new Dictionary<string, IRepository<BaseEntity>>();
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
             using TransactionScope tScope = new();
-            _context.SaveChanges();
+           
+            foreach (var item in this._context.ChangeTracker.Entries<IEntity>())
+            {
+                if(item.State == EntityState.Added)
+                {
+                   item.Entity.CreatedAt = DateTime.Now;
+                }
+                else if(item.State == EntityState.Modified)
+                {
+                    item.Entity.ModifiedAt = DateTime.Now;
+                }
+                else if(item.State == EntityState.Deleted)
+                {
+                    item.State = EntityState.Modified;
+                    item.Entity.IsDeleted = true;
+                }
+            }
+
+            await Task.FromResult(_context.SaveChanges());
             tScope.Complete();
         }
 

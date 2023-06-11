@@ -15,17 +15,17 @@ namespace Data.Repository
 
         public async Task<IQueryable<TEntity>> GetAll()
         {
-            return await (Task.FromResult(this._context.Set<TEntity>().AsNoTracking()));
+            return await (Task.FromResult(this._context.Set<TEntity>().Where(e => !e.IsDeleted)));
         }
 
         public async Task<IEnumerable<TEntity>> Find(Func<TEntity, bool> predicate)
         {
-            return await Task.FromResult(this._context.Set<TEntity>().AsNoTracking().Where(predicate));
+            return await Task.FromResult(this._context.Set<TEntity>().Where(e => !e.IsDeleted).Where(predicate));
         }
 
         public async Task<TEntity?> GetById(Guid id)
         {
-            var entity = await this._context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+            var entity = await this._context.Set<TEntity>().Where(e => !e.IsDeleted).FirstOrDefaultAsync(e => e.Id == id);
 
             return entity;
         }
