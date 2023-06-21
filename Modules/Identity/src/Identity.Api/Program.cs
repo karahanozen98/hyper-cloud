@@ -2,6 +2,8 @@ using Data.UnitOfWork;
 using Identity.Application.Services;
 using Identity.Repository.Context;
 using Identity.Repository.UnitOfWork;
+using Logging.Logger;
+using Logging.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 builder.Services.AddScoped<IUnitOfWork, IdentityUnitOfWork>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddSingleton<Logger>();
 
 var app = builder.Build();
 
@@ -30,5 +33,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<LoggerMiddleware>();
+app.UseMiddleware<UnitOfWorkMiddleware>();
 
 app.Run();

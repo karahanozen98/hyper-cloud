@@ -6,6 +6,8 @@ using Post.Application.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Logging.Middleware;
+using Logging.Logger;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -18,6 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 builder.Services.AddScoped<IUnitOfWork, PostUnitOfWork>();
 builder.Services.AddScoped<PostService>();
+builder.Services.AddSingleton<Logger>();
 
 
 builder.Services.AddAuthentication(x =>
@@ -51,6 +54,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseMiddleware<LoggerMiddleware>();
 app.UseMiddleware<UnitOfWorkMiddleware>();
 
 app.Run();

@@ -27,20 +27,12 @@ namespace Bff.Mobile.Api.Controllers
             return await this._postService.GetPostById(id);
         }
 
-        // POST api/<PostController>
         [HttpPost]
         public async Task Post([FromBody] CreatePostDto createPostDto)
         {
             await this._postService.CreatePost(createPostDto);
         }
 
-        // PUT api/<PostController>/5
-        [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<PostController>/5
         [HttpDelete("{id}")]
         public async Task Delete(Guid id)
         {

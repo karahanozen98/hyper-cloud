@@ -37,7 +37,7 @@ namespace Post.Application.Services
         public async Task<PostDto> GetPostsById(Guid id)
         {
             var post = (await this._postRepository.GetById(id));
-            var postDto =  new PostDto
+            var postDto = new PostDto
             {
                 Id = post.Id,
                 Description = post.Description,

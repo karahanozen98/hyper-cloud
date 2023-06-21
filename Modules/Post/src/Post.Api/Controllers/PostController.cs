@@ -18,14 +18,12 @@ namespace Post.Api.Controllers
             this._postService = postService;
         }
 
-        // GET: api/<PostController>
         [HttpGet]
         public async Task<IList<PostDto>> Get()
         {
             return await this._postService.GetPosts();
         }
 
-        // GET api/<PostController>/5
         [HttpGet("{id}")]
         public async Task<PostDto> GetPostById([FromRoute] Guid id)
         {
@@ -39,10 +37,10 @@ namespace Post.Api.Controllers
             await this._postService.CreatePost(createPostDto);
         }
 
-        // PUT api/<PostController>/5
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody] string value)
         {
+            throw new NotImplementedException();
         }
 
         [Authorize(Roles = "Admin")]
