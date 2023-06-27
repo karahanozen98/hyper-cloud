@@ -12,6 +12,6 @@ namespace Post.Domain.Entities
 
         public string Email { get; set; }
 
-        public List<Post> Posts { get; set; }
+        public virtual List<Post> Posts { get; set; }
     }
 }

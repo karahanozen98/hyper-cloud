@@ -6,6 +6,6 @@ namespace Post.Domain.Entities
     {
         public string Name { get; set; }
 
-        public List<Post> Posts { get; set; }
+        public virtual List<Post> Posts { get; set; }
     }
 }

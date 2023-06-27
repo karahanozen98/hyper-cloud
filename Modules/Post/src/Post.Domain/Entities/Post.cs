@@ -14,14 +14,14 @@ namespace Post.Domain.Entities
 
         public bool IsPublic { get; set; }
 
-        public Thumbnail Thumbnail { get; set; }
+        public virtual Thumbnail Thumbnail { get; set; }
 
         public Guid OwnerId { get; set; }
 
-        public PostOwner Owner { get; set; }
+        public virtual PostOwner Owner { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public virtual List<Comment> Comments { get; set; }
 
-        public List<Tag> Tags { get; set; }
+        public virtual List<Tag> Tags { get; set; }
     }
 }

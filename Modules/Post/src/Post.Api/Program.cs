@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Logging.Middleware;
 using Logging.Logger;
+using MessageBus;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -16,11 +17,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("PostConnection"));
-    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    options.UseLazyLoadingProxies(true);
 });
 builder.Services.AddScoped<IUnitOfWork, PostUnitOfWork>();
 builder.Services.AddScoped<PostService>();
 builder.Services.AddSingleton<Logger>();
+builder.Services.AddSingleton<IMessageBus, MessageBus.MessageBus>();
 
 
 builder.Services.AddAuthentication(x =>
@@ -58,6 +60,3 @@ app.UseMiddleware<LoggerMiddleware>();
 app.UseMiddleware<UnitOfWorkMiddleware>();
 
 app.Run();
-
-// dotnet add package .\Modules\Post\src\Post.Api\Post.Api  Microsoft.EntityFrameworkCore.Design
-

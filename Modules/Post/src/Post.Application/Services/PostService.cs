@@ -2,8 +2,10 @@
 
 using Data.Repository;
 using Data.UnitOfWork;
+using MessageBus;
 using Post.Application.Dto;
 using Post.Domain.Entities;
+using System.Text.Json;
 
 namespace Post.Application.Services
 {
@@ -11,13 +13,13 @@ namespace Post.Application.Services
     {
         private readonly IRepository<Domain.Entities.Post> _postRepository;
         private readonly IRepository<PostOwner> _postOwnerRespository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMessageBus _messageBus;
 
-        public PostService(IUnitOfWork unitOfWork)
+        public PostService(IUnitOfWork unitOfWork, IMessageBus messageBus)
         {
             this._postRepository = unitOfWork.GetRepository<Domain.Entities.Post>();
             this._postOwnerRespository = unitOfWork.GetRepository<PostOwner>();
-            this._unitOfWork = unitOfWork;
+            _messageBus = messageBus;
         }
 
         public async Task<IList<PostDto>> GetPosts()
@@ -44,7 +46,13 @@ namespace Post.Application.Services
                 Content = post.Content,
                 File = post.File,
                 IsPublic = post.IsPublic,
-                Owner = null,
+                Owner = new PostOwnerDto
+                {
+                    Id = post.Owner.Id,
+                    Email = post.Owner.Email,
+                    FirstName = post.Owner.FirstName,
+                    LastName = post.Owner.LastName
+                },
                 Title = post.Title
             };
 
@@ -54,6 +62,19 @@ namespace Post.Application.Services
         public async Task CreatePost(CreatePostDto createPostDto)
         {
             var postOwner = await this._postOwnerRespository.GetById(createPostDto.Owner.Id);
+            var post = new Domain.Entities.Post
+            {
+                Id = new Guid(),
+                Title = createPostDto.Title,
+                Content = createPostDto.Content,
+                Tags = new List<Tag>(),
+                Comments = new List<Comment>(),
+                Description = createPostDto.Description,
+                File = createPostDto.File,
+                OwnerId = createPostDto.Owner.Id,
+                Owner = postOwner,
+                Thumbnail = new Thumbnail { Data = createPostDto.Thumbnail },
+            };
 
             if (postOwner == null)
             {
@@ -64,26 +85,19 @@ namespace Post.Application.Services
                     LastName = createPostDto.Owner.LastName,
                     MiddleName = createPostDto.Owner.MiddleName,
                     Email = createPostDto.Owner.Email,
+                    Posts = new List<Domain.Entities.Post> { post }
                 };
 
                 await this._postOwnerRespository.Create(postOwner);
-                await this._unitOfWork.SaveAsync();
             }
 
-            var post = new Domain.Entities.Post
-            {
-                Id = new Guid(),
-                Title = createPostDto.Title,
-                Content = createPostDto.Content,
-                Tags = new List<Tag>(),
-                Comments = new List<Comment>(),
-                Description = createPostDto.Description,
-                File = createPostDto.File,
-                OwnerId = postOwner.Id,
-                Thumbnail = new Thumbnail { Data = createPostDto.Thumbnail },
-            };
+            postOwner.Posts.Add(post);
 
-            await this._postRepository.Create(post);
+            this._messageBus.Publish(MessageKeys.POST_CREATED, JsonSerializer.Serialize(post,
+                new JsonSerializerOptions
+                {
+                    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+                }));
         }
 
         public async Task DeletePost(Guid id)

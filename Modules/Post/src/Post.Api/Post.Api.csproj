@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Core\Data\Data.csproj" />
     <ProjectReference Include="..\..\..\..\Core\Logging\Logging.csproj" />
+    <ProjectReference Include="..\..\..\..\Core\MessageBus\MessageBus.csproj" />
     <ProjectReference Include="..\Post.Application\Post.Application.csproj" />
     <ProjectReference Include="..\Post.Repository\Post.Repository.csproj" />
   </ItemGroup>

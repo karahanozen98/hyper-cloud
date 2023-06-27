@@ -12,6 +12,6 @@ namespace Post.Domain.Entities
 
         public string Email { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public virtual List<Comment> Comments { get; set; }
     }
 }

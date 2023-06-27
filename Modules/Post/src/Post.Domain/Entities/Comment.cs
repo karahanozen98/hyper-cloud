@@ -8,10 +8,10 @@ namespace Post.Domain.Entities
 
         public Guid OwnerId { get; set; }
 
-        public CommentOwner Owner { get; set; }
+        public virtual CommentOwner Owner { get; set; }
 
         public Guid PostId { get; set; }
 
-        public Post Post { get; set; }
+        public virtual Post Post { get; set; }
     }
 }
